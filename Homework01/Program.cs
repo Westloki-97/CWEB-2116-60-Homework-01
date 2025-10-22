@@ -1,199 +1,180 @@
 using System;
-using System.Globalization;
 
+/// <summary>
+/// CWEB 2116-60 Application Design I - Homework 01
+/// Implements: output statements, comments, variables, constants, data types,
+/// typecasting, if-else, and switch.
+/// </summary>
 namespace Homework01
 {
-    /// <summary>
-    /// CWEB 2116-60 Application Design I — HOMEWORK 01
-    /// Implements Tasks 1–6 in a single console app.
-    /// </summary>
     internal class Program
     {
+        /// <summary>
+        /// Entry point for the console application.
+        /// </summary>
         static void Main(string[] args)
         {
-            // Make numeric parsing consistent (e.g., users typing "." for decimals)
-            CultureInfo.CurrentCulture = CultureInfo.InvariantCulture;
-
-            Line("===== TASK 1: Output Statements =====");
-            Task1_OutputStatements();
-
-            Line("\n===== TASK 2: Comments (see code for examples) =====");
-            Task2_CommentsDemo();
-
-            Line("\n===== TASK 3: Variables and Data Types =====");
-            Task3_VariablesAndDataTypes();
-
-            Line("\n===== TASK 4: Constants (Pi) and Circle Area =====");
-            Task4_ConstantsCircleArea();
-
-            Line("\n===== TASK 5: Typecasting and if-else (Voting Eligibility) =====");
-            Task5_TypecastingAndIfElse();
-
-            Line("\n===== TASK 6: Switch Statement (Simple Calculator) =====");
-            Task6_SwitchCalculator();
-
-            Line("\nAll tasks complete. Press Enter to exit.");
-            Console.ReadLine();
-        }
-
-        // Utility: write a full line
-        static void Line(string s) => Console.WriteLine(s);
-
-        // -----------------------------------------------------------
-        // TASK 1: Output Statements
-        // -----------------------------------------------------------
-        /// <summary>
-        /// Prints a name and favorite color using Console.WriteLine().
-        /// </summary>
-        static void Task1_OutputStatements()
-        {
-            // Required Output (example)
+            // -----------------------------
+            // Task 1: Output Statements
+            // -----------------------------
+            // Single-line comment: prints your name and favorite color.
+            Console.WriteLine("=== Task 1: Output Statements ===");
             Console.WriteLine("Your name: William Schneider");
             Console.WriteLine("Your favorite color: Blue");
-        }
+            Console.WriteLine();
 
-        // -----------------------------------------------------------
-        // TASK 2: Comments
-        // -----------------------------------------------------------
-        /// <summary>
-        /// Demonstrates single-line, multi-line, and documentation comments.
-        /// </summary>
-        static void Task2_CommentsDemo()
-        {
-            // Single-line comment: This explains the next line of code.
-            Console.WriteLine("Single-line comment shown above.");
-
-            /* 
+            // -----------------------------
+            // Task 2: Comments
+            // -----------------------------
+            /*
                Multi-line comment:
-               These comments can span multiple lines and are useful
-               for explaining larger sections or temporarily disabling code.
+               Below we demonstrate three types of comments:
+               1) Single-line: begins with // and continues to end of line.
+               2) Multi-line: wrapped with /* ... *\/ across multiple lines.
+               3) Documentation (XML) comments: /// placed before types/members for tooling.
             */
-            Console.WriteLine("Multi-line comment shown in the code.");
+            Console.WriteLine("=== Task 2: Comments ===");
+            Console.WriteLine("Comments demonstrated in code: single-line, multi-line, and XML doc comments.");
+            Console.WriteLine();
 
-            /// <remarks>
-            /// XML documentation comments (like this) are used to generate
-            /// documentation and to provide IntelliSense tooltips. They are
-            /// typically placed above declarations (classes/methods).
-            /// </remarks>
-            Console.WriteLine("XML documentation comment shown above this method.");
-        }
-
-        // -----------------------------------------------------------
-        // TASK 3: Variables and Data Types
-        // -----------------------------------------------------------
-        /// <summary>
-        /// Declares variables of specified types and prints their values.
-        /// </summary>
-        static void Task3_VariablesAndDataTypes()
-        {
-            string firstName = "Alex";
-            long cityPopulation = 4981234L;
-            double tempCelsius = 21.6;
-            bool isStudent = true;
+            // -----------------------------
+            // Task 3: Variables and Data Types
+            // -----------------------------
+            Console.WriteLine("=== Task 3: Variables and Data Types ===");
+            string firstName = "Will";                     // string
+            long cityPopulation = 429606;                 // long (example: Minneapolis approx, adjust as desired)
+            double tempCelsius = 21.5;                    // double
+            bool isStudent = true;                        // bool
 
             Console.WriteLine($"First name (string): {firstName}");
             Console.WriteLine($"City population (long): {cityPopulation}");
-            Console.WriteLine($"Temperature (double, °C): {tempCelsius}");
+            Console.WriteLine($"Temperature in °C (double): {tempCelsius}");
             Console.WriteLine($"Is student? (bool): {isStudent}");
-        }
+            Console.WriteLine();
 
-        // -----------------------------------------------------------
-        // TASK 4: Constants
-        // -----------------------------------------------------------
-        /// <summary>
-        /// Uses a constant for Pi and computes the area of a circle with radius = 5.
-        /// </summary>
-        static void Task4_ConstantsCircleArea()
-        {
-            const double Pi = 3.14159; // constant as required
-            double radius = 5.0;       // variable as required
+            // -----------------------------
+            // Task 4: Constants
+            // -----------------------------
+            Console.WriteLine("=== Task 4: Constants ===");
+            const double Pi = 3.14159; // constant Pi
+            double radius = 5;         // given
             double area = Pi * radius * radius;
-            Console.WriteLine($"Pi = {Pi}, radius = {radius}");
-            Console.WriteLine($"Area of circle = {area}");
-        }
+            Console.WriteLine($"Pi (const): {Pi}");
+            Console.WriteLine($"Radius: {radius}");
+            Console.WriteLine($"Area of circle = π × r^2 = {area}");
+            Console.WriteLine();
 
-        // -----------------------------------------------------------
-        // TASK 5: Typecasting and if-else
-        // -----------------------------------------------------------
-        /// <summary>
-        /// Gets name and age from the user, typecasts age, and prints voting eligibility.
-        /// </summary>
-        static void Task5_TypecastingAndIfElse()
-        {
+            // -----------------------------
+            // Task 5: Typecasting and if-else
+            // -----------------------------
+            Console.WriteLine("=== Task 5: Typecasting and if-else ===");
             Console.Write("Enter your name: ");
-            string name = Console.ReadLine() ?? string.Empty;
+            string? nameInput = Console.ReadLine();
 
             Console.Write("Enter your age: ");
-            string? ageText = Console.ReadLine();
+            string? ageInput = Console.ReadLine();
 
-            // Typecast/parse as needed
-            if (!int.TryParse(ageText, out int age))
+            // Safely parse with TryParse; if invalid, default to -1
+            int age = -1;
+            if (!int.TryParse(ageInput, out age))
             {
-                Console.WriteLine("Invalid age. Please run the task again and enter a whole number.");
-                return;
+                Console.WriteLine("Invalid age input. Using -1.");
             }
+
+            // Typecasting example (int -> string) via interpolation already shown; 
+            // we can also cast explicitly if needed, but not necessary here.
 
             if (age >= 18)
             {
-                Console.WriteLine($"{name}, you are {age} and eligible to vote.");
+                Console.WriteLine($"{nameInput}, you are eligible to vote.");
+            }
+            else if (age >= 0)
+            {
+                Console.WriteLine($"{nameInput}, you are not eligible to vote.");
             }
             else
             {
-                Console.WriteLine($"{name}, you are {age} and NOT eligible to vote.");
+                Console.WriteLine("Could not determine voting eligibility due to invalid age.");
             }
-        }
+            Console.WriteLine();
 
-        // -----------------------------------------------------------
-        // TASK 6: Switch Statement
-        // -----------------------------------------------------------
-        /// <summary>
-        /// Gets two numbers and a choice (1–4) from the user, then performs the operation via switch.
-        /// 1=Addition, 2=Subtraction, 3=Multiplication, 4=Division.
-        /// </summary>
-        static void Task6_SwitchCalculator()
-        {
-            Console.Write("Enter number1: ");
-            if (!double.TryParse(Console.ReadLine(), out double a))
+            // -----------------------------
+            // Task 6: Switch Statement (Calculator)
+            // -----------------------------
+            Console.WriteLine("=== Task 6: Switch Statement (Calculator) ===");
+
+            // Helper to read a double with retry once
+            double ReadDouble(string prompt)
             {
-                Console.WriteLine("Invalid number1.");
-                return;
+                Console.Write(prompt);
+                string? s = Console.ReadLine();
+                if (!double.TryParse(s, out double val))
+                {
+                    Console.WriteLine("Invalid number. Please try once more.");
+                    Console.Write(prompt);
+                    s = Console.ReadLine();
+                    if (!double.TryParse(s, out val))
+                    {
+                        Console.WriteLine("Invalid again; using 0.");
+                        val = 0;
+                    }
+                }
+                return val;
             }
 
-            Console.Write("Enter number2: ");
-            if (!double.TryParse(Console.ReadLine(), out double b))
+            int ReadInt(string prompt)
             {
-                Console.WriteLine("Invalid number2.");
-                return;
+                Console.Write(prompt);
+                string? s = Console.ReadLine();
+                if (!int.TryParse(s, out int val))
+                {
+                    Console.WriteLine("Invalid integer. Using 0.");
+                    val = 0;
+                }
+                return val;
             }
 
-            Console.Write("Enter choice (1=Add, 2=Sub, 3=Mul, 4=Div): ");
-            if (!int.TryParse(Console.ReadLine(), out int choice))
-            {
-                Console.WriteLine("Invalid choice.");
-                return;
-            }
+            double number1 = ReadDouble("Enter number1: ");
+            double number2 = ReadDouble("Enter number2: ");
 
+            Console.WriteLine("Choose operation: 1=Addition, 2=Subtraction, 3=Multiplication, 4=Division");
+            int choice = ReadInt("Enter choice number: ");
+
+            double result;
             switch (choice)
             {
                 case 1:
-                    Console.WriteLine($"Result (Addition): {a + b}");
+                    result = number1 + number2;
+                    Console.WriteLine($"Result (Addition): {result}");
                     break;
                 case 2:
-                    Console.WriteLine($"Result (Subtraction): {a - b}");
+                    result = number1 - number2;
+                    Console.WriteLine($"Result (Subtraction): {result}");
                     break;
                 case 3:
-                    Console.WriteLine($"Result (Multiplication): {a * b}");
+                    result = number1 * number2;
+                    Console.WriteLine($"Result (Multiplication): {result}");
                     break;
                 case 4:
-                    if (b == 0)
-                        Console.WriteLine("Cannot divide by zero.");
+                    if (number2 == 0)
+                    {
+                        Console.WriteLine("Division by zero is undefined.");
+                    }
                     else
-                        Console.WriteLine($"Result (Division): {a / b}");
+                    {
+                        result = number1 / number2;
+                        Console.WriteLine($"Result (Division): {result}");
+                    }
                     break;
                 default:
                     Console.WriteLine("Invalid choice. Please enter 1, 2, 3, or 4.");
                     break;
             }
+
+            Console.WriteLine();
+            Console.WriteLine("=== End of Program ===");
+            Console.WriteLine("Press ENTER to exit...");
+            Console.ReadLine();
         }
     }
 }
